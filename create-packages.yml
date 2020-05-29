@@ -118,8 +118,7 @@ steps:
   displayName: 'Tag Repo With Version Number'
   inputs:
     tagUser: 'Azure DevOps'
-    tagEmail: 'CIUser@51Degrees.com'
-    tag: 'v$(GitVersion.NuGetVersion)'
+    tagEmail: 'CIUser@51Degrees.com'    
   condition: succeeded()
 
 - task: PublishBuildArtifacts@1
