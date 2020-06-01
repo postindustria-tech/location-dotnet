@@ -20,14 +20,8 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection;
-using FiftyOne.DeviceDetection.Cloud.FlowElements;
 using FiftyOne.GeoLocation;
-using FiftyOne.GeoLocation.Cloud.FlowElements;
-using FiftyOne.GeoLocation.Core;
 using FiftyOne.GeoLocation.Core.Data;
-using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
-using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
@@ -35,12 +29,11 @@ using System.Threading;
 using System.Threading.Tasks;
 
 /// <summary>
-/// @example CombiningServices/Program.cs
+/// @example Cloud/GettingStarted/Program.cs
 /// 
-/// using 51Degrees reverse geocoding alongside 
-/// 51Degrees device detection.
+/// Getting started example of using 51Degrees reverse geocoding.
 /// 
-/// This example is available in full on [GitHub](https://github.com/51Degrees/location-dotnet/blob/master/Examples/CombiningServices/Program.cs). 
+/// This example is available in full on [GitHub](https://github.com/51Degrees/location-dotnet/blob/master/FiftyOne.GeoLocation/Examples/Cloud/GettingStarted/Program.cs). 
 /// 
 /// To run this example, you will need to create a **resource key**. 
 /// The resource key is used as short-hand to store the particular set of 
@@ -51,137 +44,84 @@ using System.Threading.Tasks;
 /// 
 /// Required NuGet Dependencies:
 /// - FiftyOne.GeoLocation
-/// - FiftyOne.DeviceDetection
 /// 
 /// The example shows how to:
 /// 
-/// 1. Build new cloud-based geolocation, and device detection engines, along
-/// with the cloud request engine on which they rely.
+/// 1. Build a new Pipeline with a cloud-based geolocation engine, with lazy
+/// loading configured to allow up to a second for a response from the cloud
+/// service.
 /// ```
-/// var cloudRequestEngine =
-///     new CloudRequestEngineBuilder(_loggerFactory, _httpClient)
-///     .SetResourceKey(resourceKey)
+/// var pipeline =
+///     new GeoLocationPipelineBuilder(_loggerFactory)
+///     .UseCloud(resourceKey, FiftyOne.GeoLocation.Core.GeoLocationProvider.FiftyOneDegrees)
+///     .UseLazyLoading(TimeSpan.FromSeconds(1))
 ///     .Build();
-/// var deviceDetectionEngine =
-///     new DeviceDetectionCloudEngineBuilder(
-///         _loggerFactory,
-///         _httpClient,
-///         cloudRequestEngine)
-///     .Build();
-/// var locationEngine =
-///     new GeoLocationCloudEngineBuilder(
-///         _loggerFactory,
-///         cloudRequestEngine)
-///     .Build(GeoLocationProvider.FiftyOneDegrees);
 /// ```
 ///
-/// 2. Build a new Pipeline containing the engines which were just created.
-/// ```
-/// var pipeline = new PipelineBuilder(_loggerFactory)
-///     .AddFlowElement(cloudRequestEngine)
-///     .AddFlowElement(deviceDetectionEngine)
-///     .AddFlowElement(locationEngine)
-///     .Build();
-/// ```
-/// 
-/// Note that while the cloud request engine must be run before the others, the
-/// device detection and geolocation engines can be run in parallel.
-/// ```
-/// var pipeline = new PipelineBuilder(_loggerFactory)
-///     .AddFlowElement(cloudRequestEngine)
-///     .AddFlowElementsParallel(deviceDetectionEngine, locationEngine)
-///     .Build();
-/// ```
-/// 
-/// 3. Create a new FlowData instance ready to be populated with evidence for
+/// 2. Create a new FlowData instance ready to be populated with evidence for
 /// the Pipeline.
 /// ```
 /// var data = pipeline.CreateFlowData();
 /// ```
 ///
-/// 4. Process a longitude and latitude and User-Agent to retrieve the values
-/// associated with the location and device for the selected properties.
+/// 3. Process a longitude and latitude to retrieve the values associated with
+/// with the location for the selected properties.
 /// ```
 /// data
-///     .AddEvidence(Constants.EVIDENCE_HEADER_USERAGENT_KEY, userAgent)
 ///     .AddEvidence(Constants.EVIDENCE_GEO_LAT_PARAM_KEY, "51.458048")
 ///     .AddEvidence(Constants.EVIDENCE_GEO_LON_PARAM_KEY, "-0.9822207999999999")
 ///     .Process();
 /// ```
 ///
-/// 5. Extract the value of a property as a string from the results.
+/// 4. Extract the value of a property as a string from the results.
 /// ```
 /// var country = data.Get<IGeoData>().Country;
-/// var isMobile = data.Get<IDeviceData>().IsMobile;
 /// ```
 /// </summary>
-namespace CombiningServices
+namespace GettingStarted
 {
     class Program
     {
         private static ILoggerFactory _loggerFactory = new LoggerFactory();
 
-        private static HttpClient _httpClient = new HttpClient();
-
-        private static string mobileUserAgent =
-            "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) " +
-            "AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 " +
-            "Chrome/71.0.3578.99 Mobile Safari/537.36";
-
         static void Main(string[] args)
         {
             // Obtain a resource key for free at https://configure.51degrees.com
-            // Make sure to include the 'Country' and 'IsMobile' properties as
-            // they are used by this example.
+            // Make sure to include the 'Country' property as it is used by this example.
             string resourceKey = "!!YOUR_RESOURCE_KEY!!";
 
             if (resourceKey.StartsWith("!!"))
             {
                 Console.WriteLine("You need to create a resource key at " +
                     "https://configure.51degrees.com and paste it into this example.");
-                Console.WriteLine("Make sure to include the 'Country' and " +
-                    "'IsMobile' properties as they are used by this example.");
+                Console.WriteLine("Make sure to include the 'Country' " +
+                    "property as it is used by this example.");
             }
             else
             {
-                var cloudRequestEngine =
-                    new CloudRequestEngineBuilder(_loggerFactory, _httpClient)
-                    .SetResourceKey(resourceKey)
-                    .Build();
-                var deviceDetectionEngine =
-                    new DeviceDetectionCloudEngineBuilder(_loggerFactory)
-                    .Build();
-                var locationEngine =
-                    new GeoLocationCloudEngineBuilder(
-                        _loggerFactory)
-                    .Build(GeoLocationProvider.FiftyOneDegrees);
-
                 using (var pipeline =
-                    new PipelineBuilder(_loggerFactory)
-                    .AddFlowElement(cloudRequestEngine)
-                    .AddFlowElement(deviceDetectionEngine)
-                    .AddFlowElement(locationEngine)
+                    new GeoLocationPipelineBuilder(_loggerFactory)
+                    // Obtain a resource key from https://configure.51degrees.com 
+                    // and select your Geo Location provider.
+                    .UseCloud(resourceKey, FiftyOne.GeoLocation.Core.GeoLocationProvider.FiftyOneDegrees)
+                    .UseLazyLoading(TimeSpan.FromSeconds(10))
                     .Build())
                 {
                     var data = pipeline.CreateFlowData();
-                    data.AddEvidence("header.user-agent", mobileUserAgent);
                     data.AddEvidence("query.51D_Pos_latitude", "51.458048");
                     data.AddEvidence("query.51D_Pos_longitude", "-0.9822207999999999");
 
                     data.Process();
 
+                    var country = data.Get<IGeoData>().Country;
+
                     Console.Write($"Awaiting response");
                     CancellationTokenSource cancellationSource = new CancellationTokenSource();
                     Task.Run(() => { OutputUntilCancelled(".", 1000, cancellationSource.Token); });
-
-                    var country = data.Get<IGeoData>().Country;
-                    var isMobile = data.Get<IDeviceData>().IsMobile;
-
                     cancellationSource.Cancel();
                     Console.WriteLine();
 
                     Console.WriteLine($"Country: {country.ToString()}");
-                    Console.WriteLine($"IsMobile: {isMobile.ToString()}");
                 }
             }
             Console.ReadKey();
