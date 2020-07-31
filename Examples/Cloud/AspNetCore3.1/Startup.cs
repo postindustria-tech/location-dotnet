@@ -69,7 +69,6 @@ namespace AspNetCore31
                         "appsettings.json file in this example.");
                 }
             }
-
             services.AddControllersWithViews();
 
             services.Configure<CookiePolicyOptions>(options =>

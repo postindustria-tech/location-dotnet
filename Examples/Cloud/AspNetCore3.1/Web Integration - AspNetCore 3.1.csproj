@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="FiftyOne.Geolocation.Cloud" Version="4.1.8" />
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.1.9" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.1.10" />
   </ItemGroup>
 
 
