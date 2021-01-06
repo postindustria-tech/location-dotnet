@@ -6,8 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Geolocation.Cloud" Version="4.1.8" />
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.1.10" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\FiftyOne.GeoLocation.Cloud\FiftyOne.GeoLocation.Cloud.csproj" />
   </ItemGroup>
 
 

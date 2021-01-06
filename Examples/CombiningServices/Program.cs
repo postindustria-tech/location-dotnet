@@ -57,93 +57,35 @@ using System.Threading.Tasks;
 /// 
 /// 1. Build new cloud-based geolocation, and device detection engines, along
 /// with the cloud request engine on which they rely.
-/// ```
-/// var cloudRequestEngine =
-///     new CloudRequestEngineBuilder(_loggerFactory, _httpClient)
-///     .SetResourceKey(resourceKey)
-///     .Build();
-/// var deviceDetectionEngine =
-///     new DeviceDetectionCloudEngineBuilder(
-///         _loggerFactory,
-///         _httpClient,
-///         cloudRequestEngine)
-///     .Build();
-/// var locationEngine =
-///     new GeoLocationCloudEngineBuilder(
-///         _loggerFactory,
-///         cloudRequestEngine)
-///     .Build(GeoLocationProvider.FiftyOneDegrees);
-/// ```
-///
 /// 2. Build a new Pipeline containing the engines which were just created.
-/// ```
-/// var pipeline = new PipelineBuilder(_loggerFactory)
-///     .AddFlowElement(cloudRequestEngine)
-///     .AddFlowElement(deviceDetectionEngine)
-///     .AddFlowElement(locationEngine)
-///     .Build();
-/// ```
-/// 
-/// Note that while the cloud request engine must be run before the others, the
-/// device detection and geolocation engines can be run in parallel.
-/// ```
-/// var pipeline = new PipelineBuilder(_loggerFactory)
-///     .AddFlowElement(cloudRequestEngine)
-///     .AddFlowElementsParallel(deviceDetectionEngine, locationEngine)
-///     .Build();
-/// ```
-/// 
 /// 3. Create a new FlowData instance ready to be populated with evidence for
 /// the Pipeline.
-/// ```
-/// var data = pipeline.CreateFlowData();
-/// ```
-///
 /// 4. Process a longitude and latitude and User-Agent to retrieve the values
 /// associated with the location and device for the selected properties.
-/// ```
-/// data
-///     .AddEvidence(Constants.EVIDENCE_HEADER_USERAGENT_KEY, userAgent)
-///     .AddEvidence(Constants.EVIDENCE_GEO_LAT_PARAM_KEY, "51.458048")
-///     .AddEvidence(Constants.EVIDENCE_GEO_LON_PARAM_KEY, "-0.9822207999999999")
-///     .Process();
-/// ```
-///
 /// 5. Extract the value of a property as a string from the results.
-/// ```
-/// var country = data.Get<IGeoData>().Country;
-/// var isMobile = data.Get<IDeviceData>().IsMobile;
-/// ```
+
 /// </summary>
 namespace CombiningServices
 {
-    class Program
+    public class Program
     {
-        private static ILoggerFactory _loggerFactory = new LoggerFactory();
-
-        private static HttpClient _httpClient = new HttpClient();
-
-        private static string mobileUserAgent =
-            "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) " +
-            "AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 " +
-            "Chrome/71.0.3578.99 Mobile Safari/537.36";
-
-        static void Main(string[] args)
+        public class Example
         {
-            // Obtain a resource key for free at https://configure.51degrees.com
-            // Make sure to include the 'Country' and 'IsMobile' properties as
-            // they are used by this example.
-            string resourceKey = "!!YOUR_RESOURCE_KEY!!";
+            private static ILoggerFactory _loggerFactory = new LoggerFactory();
 
-            if (resourceKey.StartsWith("!!"))
-            {
-                Console.WriteLine("You need to create a resource key at " +
-                    "https://configure.51degrees.com and paste it into this example.");
-                Console.WriteLine("Make sure to include the 'Country' and " +
-                    "'IsMobile' properties as they are used by this example.");
-            }
-            else
-            {
+            private static HttpClient _httpClient = new HttpClient();
+
+            private static string mobileUserAgent =
+                "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) " +
+                "AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 " +
+                "Chrome/71.0.3578.99 Mobile Safari/537.36";
+
+            private static string latitude = "51.458048";
+            private static string longitude = "-0.9822207999999999";
+
+            public void Run(string resourceKey) 
+            { 
+
                 var cloudRequestEngine =
                     new CloudRequestEngineBuilder(_loggerFactory, _httpClient)
                     .SetResourceKey(resourceKey)
@@ -163,36 +105,77 @@ namespace CombiningServices
                     .AddFlowElement(locationEngine)
                     .Build())
                 {
-                    var data = pipeline.CreateFlowData();
-                    data.AddEvidence("header.user-agent", mobileUserAgent);
-                    data.AddEvidence("query.51D_Pos_latitude", "51.458048");
-                    data.AddEvidence("query.51D_Pos_longitude", "-0.9822207999999999");
+                    using (var data = pipeline.CreateFlowData())
+                    {
+                        data.AddEvidence("header.user-agent", mobileUserAgent);
+                        data.AddEvidence("query.51D_Pos_latitude", latitude);
+                        data.AddEvidence("query.51D_Pos_longitude", longitude);
 
-                    data.Process();
+                        data.Process();
 
-                    Console.Write($"Awaiting response");
-                    CancellationTokenSource cancellationSource = new CancellationTokenSource();
-                    Task.Run(() => { OutputUntilCancelled(".", 1000, cancellationSource.Token); });
+                        Console.Write($"Awaiting response");
+                        CancellationTokenSource cancellationSource = new CancellationTokenSource();
+                        Task.Run(() => { OutputUntilCancelled(".", 1000, cancellationSource.Token); });
 
-                    var country = data.Get<IGeoData>().Country;
-                    var isMobile = data.Get<IDeviceData>().IsMobile;
+                        var country = data.Get<IGeoData>().Country;
+                        var isMobile = data.Get<IDeviceData>().IsMobile;
 
-                    cancellationSource.Cancel();
-                    Console.WriteLine();
+                        cancellationSource.Cancel();
+                        Console.WriteLine();
 
-                    Console.WriteLine($"Country: {country.ToString()}");
-                    Console.WriteLine($"IsMobile: {isMobile.ToString()}");
+                        if (country.HasValue)
+                        {
+                            Console.WriteLine($"Country: {country.Value}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Country: {country.NoValueMessage}");
+                        }
+
+                        if (isMobile.HasValue)
+                        {
+                            Console.WriteLine($"IsMobile: {isMobile.Value}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"IsMobile: {isMobile.NoValueMessage}");
+                        }
+                    }
                 }
             }
-            Console.ReadKey();
-        }
-        private static void OutputUntilCancelled(string text, int intervalMs, CancellationToken token)
-        {
-            while (token.IsCancellationRequested == false)
+
+            private static void OutputUntilCancelled(string text, int intervalMs, CancellationToken token)
             {
-                Console.Write(text);
-                Task.Delay(intervalMs).Wait();
+                while (token.IsCancellationRequested == false)
+                {
+                    Console.Write(text);
+                    Task.Delay(intervalMs).Wait();
+                }
             }
+        }
+
+        static void Main(string[] args)
+        {
+            // Obtain a resource key for free at https://configure.51degrees.com
+            // Make sure to include the 'Country' and 'IsMobile' properties as
+            // they are used by this example.
+            string resourceKey = args.Length > 0 ? args[0] : "!!YOUR_RESOURCE_KEY!!";
+
+            if (resourceKey.StartsWith("!!"))
+            {
+                Console.WriteLine("You need to create a resource key at " +
+                    "https://configure.51degrees.com and paste it into this example.");
+                Console.WriteLine("Make sure to include the 'Country' and " +
+                    "'IsMobile' properties as they are used by this example.");
+            }
+            else
+            {
+                new Example().Run(resourceKey);
+            }
+#if (DEBUG)
+            Console.WriteLine("Complete. Press key to exit.");
+            Console.ReadKey();
+#endif
         }
     }
 }

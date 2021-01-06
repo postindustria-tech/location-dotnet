@@ -50,45 +50,75 @@ using System.Threading.Tasks;
 /// 1. Build a new Pipeline with a cloud-based geolocation engine, with lazy
 /// loading configured to allow up to a second for a response from the cloud
 /// service.
-/// ```
-/// var pipeline =
-///     new GeoLocationPipelineBuilder(_loggerFactory)
-///     .UseCloud(resourceKey, FiftyOne.GeoLocation.Core.GeoLocationProvider.FiftyOneDegrees)
-///     .UseLazyLoading(TimeSpan.FromSeconds(1))
-///     .Build();
-/// ```
-///
 /// 2. Create a new FlowData instance ready to be populated with evidence for
 /// the Pipeline.
-/// ```
-/// var data = pipeline.CreateFlowData();
-/// ```
-///
 /// 3. Process a longitude and latitude to retrieve the values associated with
 /// with the location for the selected properties.
-/// ```
-/// data
-///     .AddEvidence(Constants.EVIDENCE_GEO_LAT_PARAM_KEY, "51.458048")
-///     .AddEvidence(Constants.EVIDENCE_GEO_LON_PARAM_KEY, "-0.9822207999999999")
-///     .Process();
-/// ```
-///
 /// 4. Extract the value of a property as a string from the results.
-/// ```
-/// var country = data.Get<IGeoData>().Country;
-/// ```
 /// </summary>
 namespace GettingStarted
 {
-    class Program
+    public class Program
     {
-        private static ILoggerFactory _loggerFactory = new LoggerFactory();
+        public class Example
+        {
+            private static ILoggerFactory _loggerFactory = new LoggerFactory();
+
+            private static string latitude = "51.458048";
+            private static string longitude = "-0.9822207999999999";
+
+            public void Run(string resourceKey)
+            {
+                using (var pipeline =
+                        new GeoLocationPipelineBuilder(_loggerFactory)
+                        // Obtain a resource key from https://configure.51degrees.com 
+                        // and select your Geo Location provider.
+                        .UseCloud(resourceKey, FiftyOne.GeoLocation.Core.GeoLocationProvider.FiftyOneDegrees)
+                        .UseLazyLoading(TimeSpan.FromSeconds(10))
+                        .Build())
+                {
+                    using (var data = pipeline.CreateFlowData())
+                    {
+                        data.AddEvidence("query.51D_Pos_latitude", latitude);
+                        data.AddEvidence("query.51D_Pos_longitude", longitude);
+
+                        data.Process();
+
+                        var country = data.Get<IGeoData>().Country;
+
+                        Console.Write($"Awaiting response");
+                        CancellationTokenSource cancellationSource = new CancellationTokenSource();
+                        Task.Run(() => { OutputUntilCancelled(".", 1000, cancellationSource.Token); });
+                        cancellationSource.Cancel();
+                        Console.WriteLine();
+
+                        if (country.HasValue)
+                        {
+                            Console.WriteLine($"Country: {country.Value}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Country: {country.NoValueMessage}");
+                        }
+                    }
+                }
+            }
+
+            private void OutputUntilCancelled(string text, int intervalMs, CancellationToken token)
+            {
+                while (token.IsCancellationRequested == false)
+                {
+                    Console.Write(text);
+                    Task.Delay(intervalMs).Wait();
+                }
+            }
+        }
 
         static void Main(string[] args)
         {
             // Obtain a resource key for free at https://configure.51degrees.com
             // Make sure to include the 'Country' property as it is used by this example.
-            string resourceKey = "!!YOUR_RESOURCE_KEY!!";
+            string resourceKey = args.Length > 0 ? args[0] : "!!YOUR_RESOURCE_KEY!!";
 
             if (resourceKey.StartsWith("!!"))
             {
@@ -99,40 +129,13 @@ namespace GettingStarted
             }
             else
             {
-                using (var pipeline =
-                    new GeoLocationPipelineBuilder(_loggerFactory)
-                    // Obtain a resource key from https://configure.51degrees.com 
-                    // and select your Geo Location provider.
-                    .UseCloud(resourceKey, FiftyOne.GeoLocation.Core.GeoLocationProvider.FiftyOneDegrees)
-                    .UseLazyLoading(TimeSpan.FromSeconds(10))
-                    .Build())
-                {
-                    var data = pipeline.CreateFlowData();
-                    data.AddEvidence("query.51D_Pos_latitude", "51.458048");
-                    data.AddEvidence("query.51D_Pos_longitude", "-0.9822207999999999");
-
-                    data.Process();
-
-                    var country = data.Get<IGeoData>().Country;
-
-                    Console.Write($"Awaiting response");
-                    CancellationTokenSource cancellationSource = new CancellationTokenSource();
-                    Task.Run(() => { OutputUntilCancelled(".", 1000, cancellationSource.Token); });
-                    cancellationSource.Cancel();
-                    Console.WriteLine();
-
-                    Console.WriteLine($"Country: {country.ToString()}");
-                }
+                new Example().Run(resourceKey);
             }
+#if (DEBUG)
+            Console.WriteLine("Complete. Press key to exit.");
             Console.ReadKey();
+#endif
         }
-        private static void OutputUntilCancelled(string text, int intervalMs, CancellationToken token)
-        {
-            while (token.IsCancellationRequested == false)
-            {
-                Console.Write(text);
-                Task.Delay(intervalMs).Wait();
-            }
-        }
+
     }
 }

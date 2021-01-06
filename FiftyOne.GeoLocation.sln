@@ -24,7 +24,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Getting Started", "Examples\Cloud\GettingStarted\Getting Started.csproj", "{44B6C0CD-DD4E-41DF-972E-08545905D286}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web Integration - AspNetCore 3.1", "Examples\Cloud\AspNetCore3.1\Web Integration - AspNetCore 3.1.csproj", "{1A72E729-E928-4C2F-9C43-3FEF0F125A4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web Integration - AspNetCore 3.1", "Examples\Cloud\AspNetCore3.1\Web Integration - AspNetCore 3.1.csproj", "{1A72E729-E928-4C2F-9C43-3FEF0F125A4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9D0E3976-C067-4231-AECA-1CCEC9A26458}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiftyOne.GeoLocation.Example.Tests", "Tests\FiftyOne.GeoLocation.Example.Tests\FiftyOne.GeoLocation.Example.Tests.csproj", "{A510F671-9814-4758-98A1-68A292E96F5F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiftyOne.GeoLocation.Tests", "Tests\FiftyOne.GeoLocation.Tests\FiftyOne.GeoLocation.Tests.csproj", "{49E4FA7D-D203-4770-948C-53E6042E487C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +62,14 @@ Global
 		{1A72E729-E928-4C2F-9C43-3FEF0F125A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A72E729-E928-4C2F-9C43-3FEF0F125A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A72E729-E928-4C2F-9C43-3FEF0F125A4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A510F671-9814-4758-98A1-68A292E96F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A510F671-9814-4758-98A1-68A292E96F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A510F671-9814-4758-98A1-68A292E96F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A510F671-9814-4758-98A1-68A292E96F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49E4FA7D-D203-4770-948C-53E6042E487C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49E4FA7D-D203-4770-948C-53E6042E487C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49E4FA7D-D203-4770-948C-53E6042E487C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49E4FA7D-D203-4770-948C-53E6042E487C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +80,8 @@ Global
 		{00F7075A-9D33-4D4C-B71B-105A96309318} = {9D5A58AD-9C5D-477A-931A-E1ADF5AC459C}
 		{44B6C0CD-DD4E-41DF-972E-08545905D286} = {AD25ACE3-78A8-41C9-8C7F-BB6A3EB8DF41}
 		{1A72E729-E928-4C2F-9C43-3FEF0F125A4D} = {AD25ACE3-78A8-41C9-8C7F-BB6A3EB8DF41}
+		{A510F671-9814-4758-98A1-68A292E96F5F} = {9D0E3976-C067-4231-AECA-1CCEC9A26458}
+		{49E4FA7D-D203-4770-948C-53E6042E487C} = {9D0E3976-C067-4231-AECA-1CCEC9A26458}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ABA32D4A-D1E2-47BA-94C5-EFE452A3E696}
