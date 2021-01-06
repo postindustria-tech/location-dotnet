@@ -16,8 +16,10 @@ strategy:
     release:
       BuildConfiguration: Release 
 
-variables: 
-  RestoreBuildProjects: '**/*.sln'
+variables:
+  - group: InternalKeys
+  - name: RestoreBuildProjects
+    value: '**/*.sln'
 
 steps:
 - checkout: self
@@ -31,7 +33,7 @@ steps:
     projects: '$(RestoreBuildProjects)'
     feedsToUse: 'select'
     vstsFeed: 'pipeline-insider'
- 
+
 - task: DotNetCoreCLI@2
   displayName: 'Test'
   inputs:
