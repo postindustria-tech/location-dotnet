@@ -67,15 +67,23 @@ namespace GettingStarted
             private static string latitude = "51.458048";
             private static string longitude = "-0.9822207999999999";
 
-            public void Run(string resourceKey)
+            public void Run(string resourceKey, string cloudEndPoint = "")
             {
-                using (var pipeline =
-                        new GeoLocationPipelineBuilder(_loggerFactory)
-                        // Obtain a resource key from https://configure.51degrees.com 
-                        // and select your Geo Location provider.
-                        .UseCloud(resourceKey, FiftyOne.GeoLocation.Core.GeoLocationProvider.FiftyOneDegrees)
-                        .UseLazyLoading(TimeSpan.FromSeconds(10))
-                        .Build())
+                // Create a new pipeline builder.
+                var pipelineBuilder = new GeoLocationPipelineBuilder(_loggerFactory)
+                    // Obtain a resource key from https://configure.51degrees.com 
+                    // and select your Geo Location provider.
+                    .UseCloud(resourceKey, FiftyOne.GeoLocation.Core.GeoLocationProvider.FiftyOneDegrees)
+                    .UseLazyLoading(TimeSpan.FromSeconds(10));
+
+                // If a cloud endpoint has been provided then set the
+                // cloud pipeline endpoint. 
+                if (string.IsNullOrWhiteSpace(cloudEndPoint) == false)
+                {
+                    pipelineBuilder.SetEndPoint(cloudEndPoint);
+                }
+
+                using (var pipeline = pipelineBuilder.Build())
                 {
                     using (var data = pipeline.CreateFlowData())
                     {
