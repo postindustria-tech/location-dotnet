@@ -83,12 +83,19 @@ namespace CombiningServices
             private static string latitude = "51.458048";
             private static string longitude = "-0.9822207999999999";
 
-            public void Run(string resourceKey) 
-            { 
+            public void Run(string resourceKey, string cloudEndPoint = "") 
+            {
 
-                var cloudRequestEngine =
+                var cloudRequestEngineBuilder =
                     new CloudRequestEngineBuilder(_loggerFactory, _httpClient)
-                    .SetResourceKey(resourceKey)
+                    .SetResourceKey(resourceKey);
+
+                if (string.IsNullOrWhiteSpace(cloudEndPoint) == false)
+                {
+                    cloudRequestEngineBuilder.SetEndPoint(cloudEndPoint);
+                }
+
+                var cloudRequestEngine = cloudRequestEngineBuilder
                     .Build();
                 var deviceDetectionEngine =
                     new DeviceDetectionCloudEngineBuilder(_loggerFactory)
