@@ -23,7 +23,7 @@
 	  <PackageTags>51degrees,pipeline,data service,location,geolocation</PackageTags>
 	  <RepositoryUrl>https://github.com/51Degrees/location-dotnet</RepositoryUrl>
 	  <PackageIcon>51d-logo.png</PackageIcon>
-    <PackageProjectUrl>www.51degrees.com</PackageProjectUrl>
+	  <PackageProjectUrl>https://51degrees.com</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
