@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FiftyOne.GeoLocation.Tests
+﻿namespace FiftyOne.GeoLocation.Tests
 {
     /// <summary>
     /// GeoLocation test constants
@@ -40,5 +36,7 @@ namespace FiftyOne.GeoLocation.Tests
 
         internal const string TEST_LAT = "51.4578261";
         internal const string TEST_LON = "-0.975922996290084";
+
+        internal const string RESOURCE_KEY_ENV_VAR = "SuperResourceKey";
     }
 }

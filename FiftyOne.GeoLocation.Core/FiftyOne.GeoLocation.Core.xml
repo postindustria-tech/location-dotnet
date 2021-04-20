@@ -69,6 +69,13 @@
             gathers lat/lon data has not yet been run.
             </summary>
         </member>
+        <member name="F:FiftyOne.GeoLocation.Constants.NO_JAVASCRIPT_MESSAGE">
+            <summary>
+            The message to be sent to the user when the JavaScript that
+            gathers lat/lon data is not required. This is the case if location
+            evidence has been provided.
+            </summary>
+        </member>
         <member name="T:FiftyOne.GeoLocation.Core.Data.GeoData">
             <summary>
             Data class that contains postal address information

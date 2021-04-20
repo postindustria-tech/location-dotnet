@@ -115,5 +115,13 @@ namespace FiftyOne.GeoLocation
                 " values from JavaScript running on the client. It cannot be" +
                 " populated until a future request is made that contains this" +
                 " additional data.";
+
+        /// <summary>
+        /// The message to be sent to the user when the JavaScript that
+        /// gathers lat/lon data is not required. This is the case if location
+        /// evidence has been provided.
+        /// </summary>
+        public const string NO_JAVASCRIPT_MESSAGE = "Location evidence has been " +
+            "provided so the client-side JavaScript is not required.";
     }
 }

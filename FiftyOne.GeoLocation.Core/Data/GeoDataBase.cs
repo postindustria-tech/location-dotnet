@@ -68,23 +68,18 @@ namespace FiftyOne.GeoLocation.Core.Data
             : base(logger, pipeline, engine, missingPropertyService)
         {
             _logger = logger;
-            JavaScript = new JavaScript("");
+
+            JavaScript = new AspectPropertyValue<JavaScript>(new JavaScript(""));
         }
 
         #endregion
 
         #region Public Fields
         /// <inheritdoc/>
-        public virtual JavaScript JavaScript
+        public AspectPropertyValue<JavaScript> JavaScript
         {
-            get
-            {
-                return (JavaScript)this["javascript"];
-            }
-            set
-            {
-                this["javascript"] = value;
-            }
+            get { return GetAs<AspectPropertyValue<JavaScript>>("javascript"); }
+            set { this["javascript"] = value; }
         }
         /// <inheritdoc/>
         public AspectPropertyValue<string> Building
