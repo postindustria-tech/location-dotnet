@@ -37,7 +37,6 @@ namespace FiftyOne.GeoLocation.Example.Tests
     public class TestAllExamples
     {
         private string ResourceKey;
-        private string CloudEndPoint;
 
         /// <summary>
         /// Init method - specify Resource Key to run examples here or 
@@ -46,7 +45,7 @@ namespace FiftyOne.GeoLocation.Example.Tests
         [TestInitialize]
         public void Init()
         {
-            var resourceKey = Environment.GetEnvironmentVariable("LOCATIONRESOURCEKEY");
+            var resourceKey = Environment.GetEnvironmentVariable("SuperResourceKey");
             ResourceKey = string.IsNullOrWhiteSpace(resourceKey) == false ? 
                 resourceKey : "!!YOUR_RESOURCE_KEY!!";
 
@@ -55,18 +54,6 @@ namespace FiftyOne.GeoLocation.Example.Tests
             {
                 Assert.Fail("ResourceKey must be specified in the Init method" +
                     " or as an Environment variable");
-            }
-
-            // TODO: Remove once cloud request engine checks for cloud endpoint 
-            // environment variable.
-            var cloudEndPoint = Environment.GetEnvironmentVariable("51D_CLOUD_ENDPOINT");
-            if (string.IsNullOrWhiteSpace(cloudEndPoint) == false)
-            {
-                CloudEndPoint = cloudEndPoint;
-            }
-            else
-            {
-                CloudEndPoint = string.Empty;
             }
         }
 
@@ -78,7 +65,7 @@ namespace FiftyOne.GeoLocation.Example.Tests
         public void GettingStarted()
         {
             var example = new GettingStarted.Program.Example();
-            example.Run(ResourceKey, CloudEndPoint);
+            example.Run(ResourceKey);
         }
 
         /// <summary>
@@ -88,7 +75,7 @@ namespace FiftyOne.GeoLocation.Example.Tests
         public void CombiningServices()
         {
             var example = new CombiningServices.Program.Example();
-            example.Run(ResourceKey, CloudEndPoint);
+            example.Run(ResourceKey);
         }
     }
 }
