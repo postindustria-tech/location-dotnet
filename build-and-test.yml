@@ -34,6 +34,13 @@ steps:
     feedsToUse: 'select'
     vstsFeed: 'pipeline-insider'
 
+# Set resource key environment variable
+- task: PowerShell@2
+  displayName: 'Set Resource Key Environment Variable'
+  inputs:
+    targetType: 'inline'
+    script: '$Env:SuperResourceKey = "$(SuperResourceKey)"'
+
 - task: DotNetCoreCLI@2
   displayName: 'Test'
   inputs:

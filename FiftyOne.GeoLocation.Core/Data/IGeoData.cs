@@ -38,7 +38,7 @@ namespace FiftyOne.GeoLocation.Core.Data
         /// reverse geocoding engine in order to determine postal
         /// address information.
         /// </summary>
-        JavaScript JavaScript { get; set; }
+        AspectPropertyValue<JavaScript> JavaScript { get; set; }
 
         /// <summary>
         /// The name of the building that is closest to this location.
