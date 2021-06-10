@@ -1,0 +1,57 @@
+parameters:
+- name: imageName # Name of the agent to work on.
+
+stages:
+- stage: Build_and_Test
+
+  jobs:
+  - job: Build_and_Test
+    displayName: Build and Test
+
+    pool:
+      vmImage: ${{ parameters.imageName }}
+    
+    # Configure this to run for both Debug and Release configurations
+    strategy:
+      matrix:
+        debug:
+          BuildConfiguration: Debug
+        release:
+          BuildConfiguration: Release 
+    
+    variables:
+      - group: InternalKeys
+      - name: RestoreBuildProjects
+        value: '**/*.sln'
+    
+    steps:
+    - checkout: self
+      lfs: true
+      submodules: recursive
+    
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore NuGet Packages'
+      inputs:
+        command: 'restore'
+        projects: '$(RestoreBuildProjects)'
+        feedsToUse: 'select'
+        vstsFeed: 'pipeline-insider'
+    
+    # Set resource key environment variable
+    - task: PowerShell@2
+      displayName: 'Set Resource Key Environment Variable'
+      inputs:
+        targetType: 'inline'
+        script: '$Env:SuperResourceKey = "$(SuperResourceKey)"'
+    
+    - task: DotNetCoreCLI@2
+      displayName: 'Test'
+      inputs:
+        command: 'test'
+        projects: '$(RestoreBuildProjects)'
+        arguments: '-c $(BuildConfiguration) --no-restore'
+        testRunTitle: '$(BuildConfiguration)'
+      
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact' 
+  
