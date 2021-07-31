@@ -1,12 +1,16 @@
 parameters:
 - name: imageName # Name of the agent to work on.
-
+- name: runTests
+  type: string
+  default: 'On'
+  
 stages:
 - stage: Build_and_Test
 
   jobs:
   - job: Build_and_Test
     displayName: Build and Test
+    condition: ne(${{ parameters.runTests }}, 'Off')
 
     pool:
       vmImage: ${{ parameters.imageName }}
@@ -35,7 +39,7 @@ stages:
         command: 'restore'
         projects: '$(RestoreBuildProjects)'
         feedsToUse: 'select'
-        vstsFeed: 'pipeline-insider'
+        vstsFeed: '$(InternalFeedId)'
     
     # Set resource key environment variable
     - task: PowerShell@2
