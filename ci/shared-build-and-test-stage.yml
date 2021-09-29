@@ -1,12 +1,13 @@
 parameters:
+- name: stageName # Name of the stage.
 - name: imageName # Name of the agent to work on.
 - name: runTests
   type: string
   default: 'On'
   
 stages:
-- stage: Build_and_Test
-
+- stage: ${{ parameters.stageName }}
+  dependsOn: []
   jobs:
   - job: Build_and_Test
     displayName: Build and Test
@@ -41,20 +42,14 @@ stages:
         feedsToUse: 'select'
         vstsFeed: '$(InternalFeedId)'
     
-    # Set resource key environment variable
-    - task: PowerShell@2
-      displayName: 'Set Resource Key Environment Variable'
-      inputs:
-        targetType: 'inline'
-        script: '$Env:SuperResourceKey = "$(SuperResourceKey)"'
-    
     - task: DotNetCoreCLI@2
       displayName: 'Test'
       inputs:
         command: 'test'
         projects: '$(RestoreBuildProjects)'
         arguments: '-c $(BuildConfiguration) --no-restore'
-        testRunTitle: '$(BuildConfiguration)'
+        testRunTitle: '$(BuildConfiguration)'	
+      env: { SuperResourceKey: "$(SuperResourceKey)" }
       
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact' 
