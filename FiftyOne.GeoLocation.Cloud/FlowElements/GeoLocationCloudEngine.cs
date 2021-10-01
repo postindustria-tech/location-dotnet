@@ -116,13 +116,8 @@ namespace FiftyOne.GeoLocation.Cloud
         /// <list type="number">
         /// <item>
         ///     <description>
-        ///     Get the JSON data from the <see cref="CloudRequestEngine"/> 
+        ///     Extract properties relevant to this engine from the JSON 
         ///     response.
-        ///     </description>
-        /// </item>
-        /// <item>
-        ///     <description>
-        ///     Extract properties relevant to this engine.
         ///     </description>
         /// </item>
         /// <item>
@@ -140,6 +135,10 @@ namespace FiftyOne.GeoLocation.Cloud
         /// <param name="aspectData">
         /// The <see cref="IGeoData"/> instance to populate with values.
         /// </param>
+        /// <param name="json">
+        /// The JSON data from the <see cref="CloudRequestEngine"/> 
+        /// response.
+        /// </param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if a required parameter is null
         /// </exception>
@@ -147,36 +146,20 @@ namespace FiftyOne.GeoLocation.Cloud
         /// Thrown if the current pipeline configuration does not allow this
         /// engine to perform processing.
         /// </exception>
-        protected override void ProcessEngine(IFlowData data, IGeoData aspectData)
+        protected override void ProcessCloudEngine(IFlowData data, IGeoData aspectData, string json)
         {
-            if (data == null) { throw new ArgumentNullException(nameof(data)); }
-            if (aspectData == null) { throw new ArgumentNullException(nameof(aspectData)); }
+            if (aspectData == null) throw new ArgumentNullException(nameof(aspectData));
+            
+            // Extract data from JSON to the aspectData instance.
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+            var propertyValues = JsonConvert.DeserializeObject<Dictionary<string, object>>(dictionary[ElementDataKey].ToString(),
+                new JsonSerializerSettings()
+                {
+                    Converters = JSON_CONVERTERS,
+                });
 
-            var requestData = data.GetFromElement(RequestEngine.GetInstance());
-            var json = requestData?.JsonResponse;
-
-            if (string.IsNullOrEmpty(json))
-            {
-                throw new PipelineConfigurationException(
-                    $"Json response from cloud request engine is null. " +
-                    $"This is probably because there is not a " +
-                    $"'CloudRequestEngine' before the '{GetType().Name}' " +
-                    $"in the Pipeline. This engine will be unable " +
-                    $"to produce results until this is corrected.");
-            }
-            else
-            {
-                // Extract data from JSON to the aspectData instance.
-                var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                var propertyValues = JsonConvert.DeserializeObject<Dictionary<string, object>>(dictionary[ElementDataKey].ToString(),
-                    new JsonSerializerSettings()
-                    {
-                        Converters = JSON_CONVERTERS,
-                    });
-
-                var location = CreateAPVDictionary(propertyValues, Properties.ToList());
-                aspectData.PopulateFromDictionary(location);
-            }
+            var location = CreateAPVDictionary(propertyValues, Properties.ToList());
+            aspectData.PopulateFromDictionary(location);
         }
     }
 }
