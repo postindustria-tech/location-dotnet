@@ -48,8 +48,10 @@ stages:
         command: 'test'
         projects: '$(RestoreBuildProjects)'
         arguments: '-c $(BuildConfiguration) --no-restore'
-        testRunTitle: '$(BuildConfiguration)'	
-      env: { SuperResourceKey: "$(SuperResourceKey)" }
+        testRunTitle: '$(BuildConfiguration)'
+      # Changed to use the 'no supported I/O' variant until the underlying issue is resolved: https://github.com/51Degrees/device-detection-dotnet/issues/18
+      env:
+        SUPER_RESOURCE_KEY: $(SuperResourceKey_NoSupportedIO)
       
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact' 
