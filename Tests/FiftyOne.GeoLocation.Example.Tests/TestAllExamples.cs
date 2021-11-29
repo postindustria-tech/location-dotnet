@@ -45,7 +45,7 @@ namespace FiftyOne.GeoLocation.Example.Tests
         [TestInitialize]
         public void Init()
         {
-            var resourceKey = Environment.GetEnvironmentVariable("SuperResourceKey");
+            var resourceKey = Environment.GetEnvironmentVariable("SUPER_RESOURCE_KEY");
             ResourceKey = string.IsNullOrWhiteSpace(resourceKey) == false ? 
                 resourceKey : "!!YOUR_RESOURCE_KEY!!";
 
@@ -56,7 +56,6 @@ namespace FiftyOne.GeoLocation.Example.Tests
                     " or as an Environment variable");
             }
         }
-
 
         /// <summary>
         /// Test that the GettingStarted example runs successfully.

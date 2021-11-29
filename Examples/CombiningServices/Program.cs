@@ -85,6 +85,7 @@ namespace CombiningServices
 
             public void Run(string resourceKey, string cloudEndPoint = "") 
             {
+                Console.WriteLine($"Using resource key {resourceKey}");
 
                 var cloudRequestEngineBuilder =
                     new CloudRequestEngineBuilder(_loggerFactory, _httpClient)
