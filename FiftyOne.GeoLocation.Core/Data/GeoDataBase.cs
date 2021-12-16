@@ -166,6 +166,7 @@ namespace FiftyOne.GeoLocation.Core.Data
             {
                 { "JavaScript", typeof(IAspectPropertyValue<JavaScript>) },
                 { "Building", typeof(IAspectPropertyValue<string>) },
+                { "StreetNumber", typeof(IAspectPropertyValue<string>) },
                 { "Road", typeof(IAspectPropertyValue<string>) },
                 { "Town", typeof(IAspectPropertyValue<string>) },
                 { "Suburb", typeof(IAspectPropertyValue<string>) },
