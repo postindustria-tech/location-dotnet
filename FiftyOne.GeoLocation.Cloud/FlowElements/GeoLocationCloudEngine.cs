@@ -161,5 +161,31 @@ namespace FiftyOne.GeoLocation.Cloud
             var location = CreateAPVDictionary(propertyValues, Properties.ToList());
             aspectData.PopulateFromDictionary(location);
         }
+
+        /// <summary>
+        /// Get the type of property from its name.
+        /// </summary>
+        /// <param name="propertyMetaData"></param>
+        /// <param name="parentObjectType"></param>
+        /// <returns></returns>
+        protected override Type GetPropertyType(
+            PropertyMetaData propertyMetaData,
+            Type parentObjectType)
+        {
+            if (propertyMetaData == null)
+            {
+                throw new ArgumentNullException(nameof(propertyMetaData));
+            }
+            if (GeoDataCloud.TryGetPropertyType(
+                    propertyMetaData.Name,
+                    out var type))
+            {
+                return type;
+            }
+            else
+            {
+                return base.GetPropertyType(propertyMetaData, parentObjectType);
+            }
+        }
     }
 }

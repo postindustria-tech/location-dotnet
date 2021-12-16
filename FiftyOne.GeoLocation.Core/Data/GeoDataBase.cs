@@ -156,6 +156,28 @@ namespace FiftyOne.GeoLocation.Core.Data
 
         #endregion
 
-        
+        #region Protected Fields
+
+        /// <summary>
+        /// Dictionary of property types.
+        /// </summary>
+        protected static readonly IReadOnlyDictionary<string, Type> PropertyTypes =
+            new Dictionary<string, Type>()
+            {
+                { "JavaScript", typeof(IAspectPropertyValue<JavaScript>) },
+                { "Building", typeof(IAspectPropertyValue<string>) },
+                { "Road", typeof(IAspectPropertyValue<string>) },
+                { "Town", typeof(IAspectPropertyValue<string>) },
+                { "Suburb", typeof(IAspectPropertyValue<string>) },
+                { "County", typeof(IAspectPropertyValue<string>) },
+                { "Region", typeof(IAspectPropertyValue<string>) },
+                { "State", typeof(IAspectPropertyValue<string>) },
+                { "ZipCode", typeof(IAspectPropertyValue<string>) },
+                { "Country", typeof(IAspectPropertyValue<string>) },
+                { "CountryCode", typeof(IAspectPropertyValue<string>) },
+                { "Address", typeof(IAspectPropertyValue<string>) }
+            };
+
+        #endregion
     }
 }
