@@ -2,7 +2,7 @@
 
 ![51Degrees](https://51degrees.com/DesktopModules/FiftyOne/Distributor/Logo.ashx?utm_source=github&utm_medium=repository&utm_content=readme_main&utm_campaign=dotnet-open-source "Data rewards the curious") **Pipeline API**
 
-[Developer Documentation](https://51degrees.com/location-dotnet/4.2/index.html?utm_source=github&utm_medium=repository&utm_content=documentation&utm_campaign=dotnet-open-source "developer documentation")
+[Developer Documentation](https://51degrees.com/location-dotnet/index.html?utm_source=github&utm_medium=repository&utm_content=documentation&utm_campaign=dotnet-open-source "developer documentation")
 ## Introduction
 
 This repository contains engines for the .NET implementation of the Pipeline API 
@@ -10,12 +10,15 @@ that provide location services.
 Currently, [reverse geocoding](https://en.wikipedia.org/wiki/Reverse_geocoding) 
 is supported through the 51Degrees cloud service.
 
-## Pre-requesites
+## Dependencies
 
 Visual Studio 2019 or later is recommended. Although Visual Studio Code can be used for working with most of the projects.
 
-The Pipeline engines are written in C# and target .NET Standard 2.0.3
-Test and example projects target .NET Core 2.1 or 3.1.
+The Pipeline engines are written in C# and target .NET Standard 2.0.3.
+
+The [tested versions](https://51degrees.com/documentation/_info__tested_versions.html) page shows 
+the .NET versions that we currently test against. The software may run fine against other versions, 
+but additional caution should be applied.
 
 ## Solutions and projects
 
@@ -38,17 +41,18 @@ Examples can be found in the `FiftyOne.GeoLocation/Examples/` folder. See below 
 
 |Example|Description|
 |-------|-----------|
-|GettingStarted|This example uses the 51Degrees cloud to determine the country from a longitude and latidude.|
+|GettingStarted|This example uses the 51Degrees cloud to determine the country from a longitude and latitude.|
 |CombiningServices|This example uses geo-location alongside device detection to determine the country and device.|
 
 ## Tests
 
-Tests can be found in the `Tests/` folder. These can all be run from within Visual Studio.
+Tests can be found in the `Tests/` folder. These can all be run from within Visual Studio or 
+with the `dotnet test` command.
 
 ## Project documentation
 
 For complete documentation on the Pipeline API and associated engines, see the [51Degrees documentation site][Documentation].
 
-[Documentation]: https://51degrees.com/documentation/4.2/index.html
+[Documentation]: https://51degrees.com/documentation/index.html
 [nuget]: https://www.nuget.org/packages/FiftyOne.GeoLocation/
 
