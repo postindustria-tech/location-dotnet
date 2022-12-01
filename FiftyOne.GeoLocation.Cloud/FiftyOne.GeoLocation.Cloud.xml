@@ -45,19 +45,14 @@
             power this engine.
             </param>
         </member>
-        <member name="M:FiftyOne.GeoLocation.Cloud.GeoLocationCloudEngine.ProcessEngine(FiftyOne.Pipeline.Core.Data.IFlowData,FiftyOne.GeoLocation.Core.Data.IGeoData)">
+        <member name="M:FiftyOne.GeoLocation.Cloud.GeoLocationCloudEngine.ProcessCloudEngine(FiftyOne.Pipeline.Core.Data.IFlowData,FiftyOne.GeoLocation.Core.Data.IGeoData,System.String)">
             <summary>
             Perform the processing for this engine:
             <list type="number">
             <item>
                 <description>
-                Get the JSON data from the <see cref="T:FiftyOne.Pipeline.CloudRequestEngine.FlowElements.CloudRequestEngine"/> 
+                Extract properties relevant to this engine from the JSON 
                 response.
-                </description>
-            </item>
-            <item>
-                <description>
-                Extract properties relevant to this engine.
                 </description>
             </item>
             <item>
@@ -75,6 +70,10 @@
             <param name="aspectData">
             The <see cref="T:FiftyOne.GeoLocation.Core.Data.IGeoData"/> instance to populate with values.
             </param>
+            <param name="json">
+            The JSON data from the <see cref="T:FiftyOne.Pipeline.CloudRequestEngine.FlowElements.CloudRequestEngine"/> 
+            response.
+            </param>
             <exception cref="T:System.ArgumentNullException">
             Thrown if a required parameter is null
             </exception>
@@ -82,6 +81,14 @@
             Thrown if the current pipeline configuration does not allow this
             engine to perform processing.
             </exception>
+        </member>
+        <member name="M:FiftyOne.GeoLocation.Cloud.GeoLocationCloudEngine.GetPropertyType(FiftyOne.Pipeline.Core.Data.PropertyMetaData,System.Type)">
+            <summary>
+            Get the type of property from its name.
+            </summary>
+            <param name="propertyMetaData"></param>
+            <param name="parentObjectType"></param>
+            <returns></returns>
         </member>
         <member name="T:FiftyOne.GeoLocation.Cloud.FlowElements.GeoLocationCloudEngineBuilder">
             <summary>
