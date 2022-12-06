@@ -95,10 +95,6 @@ namespace FiftyOne.GeoLocation.Cloud
         {
             switch (provider)
             {
-                case GeoLocationProvider.DigitalElement:
-                    _elementDataKey = "location_digitalelement";
-                    DataProviderPrefix = "DigitalElement";
-                    break;
                 case GeoLocationProvider.FiftyOneDegrees:
                     _elementDataKey = "location";
                     DataProviderPrefix = "OSM";

@@ -38,11 +38,6 @@ namespace FiftyOne.GeoLocation.Core
         /// API using data from 
         /// <a href="https://www.openstreetmap.org/">OpenStreetMap</a>.
         /// </summary>
-        FiftyOneDegrees,
-        /// <summary>
-        /// The <a href="https://www.digitalelement.com/solutions/geomprint/">GeoMprint</a>
-        /// solution from Digital Element.
-        /// </summary>
-        DigitalElement
+        FiftyOneDegrees
     }
 }
