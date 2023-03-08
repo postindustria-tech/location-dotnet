@@ -29,7 +29,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace AspNetCore31
+namespace AspNetCore
 {
     public class Program
     {

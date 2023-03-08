@@ -14,12 +14,13 @@ resources:
 
 # Use shared variables
 variables:
+- template: shared-variables.yml
 - template: shared-variables.yml@ciTemplates
 
 stages:    
 # Build source and create packages
 - template: shared-create-packages-stage.yml
   parameters:
-    imageName: $(windowsImage)
+    imageName: $(windowsImageLocation)
     targetPublishConfig: 'Release'
     templates: 'ciTemplates'
