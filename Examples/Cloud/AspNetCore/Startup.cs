@@ -36,7 +36,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-/// @example AspNetCore3.1/Startup.cs
+/// @example AspNetCore/Startup.cs
 /// @include{doc} example-web-integration-location.txt
 /// 
 /// The source code for this example is available in full on [GitHub](https://github.com/51Degrees/location-dotnet/blob/master/Examples/Cloud/AspNetCore3.1). 
@@ -59,7 +59,7 @@ using Microsoft.Extensions.Hosting;
 /// 
 /// ## Startup
 
-namespace AspNetCore31
+namespace AspNetCore
 {
     public class Startup
     {

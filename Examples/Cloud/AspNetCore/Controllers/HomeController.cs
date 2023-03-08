@@ -29,7 +29,7 @@ using FiftyOne.GeoLocation.Core.Data;
 using FiftyOne.Pipeline.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AspNetCore31.Controllers
+namespace AspNetCore.Controllers
 {
     public class HomeController : Controller
     {
