@@ -2,6 +2,9 @@ parameters:
 - name: targetPublishConfig # Target build configuration to publish
   type: string
   default: 'Release'
+- name: nugetVersion # NuGet version to use
+  type: string
+  default: 6.0.3
 - name: imageName # Name of the agent to work on
 - name: templates
 
@@ -55,6 +58,13 @@ stages:
     #- script: |
     #    ls -d $(System.ArtifactsDirectory)/*
     
+
+    # Install NuGet and restore packages
+    - task: NuGetToolInstaller@1
+      displayName: 'Use NuGet ${{ parameters.nugetVersion }}'
+      inputs:
+        versionSpec: ${{ parameters.nugetVersion }}
+
     - task: DotNetCoreCLI@2
       displayName: 'Restore NuGet Packages'
       retryCountOnTaskFailure: 3
