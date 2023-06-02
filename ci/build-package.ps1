@@ -3,8 +3,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$RepoName,
     [string]$Name = "Release_x64",
-    [string]$Configuration = "Release",
-    [string]$Arch = "x64",
+    [string]$Configuration = "Release"
     [Parameter(Mandatory=$true)]
     [string]$Version,
     [Parameter(Mandatory=$true)]
@@ -13,7 +12,7 @@ param(
 )
 
 
-./dotnet/build-package-nuget.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -Version $Version -SolutionName "FiftyOne.GeoLocation.sln" -CodeSigningCert $Keys['CodeSigningCert'] -CodeSigningCertPassword $Keys['CodeSigningCertPassword'] -SearchPattern "^(?!.*Test)Project\(.*csproj"
+./dotnet/build-package-nuget.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Version $Version -SolutionName "FiftyOne.GeoLocation.sln" -CodeSigningCert $Keys['CodeSigningCert'] -CodeSigningCertPassword $Keys['CodeSigningCertPassword'] -SearchPattern "^(?!.*Test)Project\(.*csproj"
 
 
 exit $LASTEXITCODE
