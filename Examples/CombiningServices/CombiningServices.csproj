@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.DeviceDetection" Version="4.4.59" />
+    <PackageReference Include="FiftyOne.DeviceDetection" Version="4.4.61" />
   </ItemGroup>
 
   <ItemGroup>
