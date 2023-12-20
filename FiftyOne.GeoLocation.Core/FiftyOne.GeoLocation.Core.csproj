@@ -16,7 +16,7 @@
 		  The 51Degrees Pipeline API provides a fast, modern architecture for consuming real-time digital data services. 
 		  The package contains shared components that are used by geolocation services.
 	  </PackageDescription>
-	  <Authors>51D_Steve;Ben51Degrees;Joseph51Degrees</Authors>
+	  <Authors>51Degrees Engineering</Authors>
 	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
     <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
 	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
