@@ -12,15 +12,12 @@
 	  <!-- NuGet package properties -->
 	  <PackageId>FiftyOne.Geolocation.Core</PackageId>
 	  <Title>Core library for location services for the 51Degrees Pipeline API</Title>
-	  <PackageDescription>
-		  The 51Degrees Pipeline API provides a fast, modern architecture for consuming real-time digital data services. 
-		  The package contains shared components that are used by geolocation services.
-	  </PackageDescription>
+	  <Description>51Degrees Geolocation performs reverse geocoding (using longitude and latitude information) to populate postal addresses.</Description>
 	  <Authors>51Degrees Engineering</Authors>
 	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
     <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
 	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
-	  <PackageTags>51degrees,pipeline,data service,location,geolocation</PackageTags>
+	  <PackageTags>51degrees;location;geolocation;longitude;latitude</PackageTags>
 	  <RepositoryUrl>https://github.com/51Degrees/location-dotnet</RepositoryUrl>
 	  <PackageProjectUrl>https://51degrees.com</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
