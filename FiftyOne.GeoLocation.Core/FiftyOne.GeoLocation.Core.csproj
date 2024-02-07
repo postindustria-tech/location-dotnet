@@ -50,7 +50,7 @@
       <LastGenOutput>JavaScriptResource.cs</LastGenOutput>
       <Generator>TextTemplatingFilePreprocessor</Generator>
     </None>
-    <None Include="..\..\common-dotnet\README.md">
+    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
