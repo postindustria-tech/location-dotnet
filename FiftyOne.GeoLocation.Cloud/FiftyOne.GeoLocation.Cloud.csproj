@@ -14,7 +14,7 @@
 	  <!-- NuGet package properties -->
 	  <PackageId>FiftyOne.Geolocation.Cloud</PackageId>
 	  <Title>Cloud-based location services for the 51Degrees Pipeline API</Title>
-	  <Description>51Degrees Geolocation performs reverse geocoding (using longitude and latitude information) to populate postal addresses.</Description>
+	  <Description>51Degrees Geolocation performs reverse geocoding (using longitude and latitude information) to populate postal addresses. This package performs reverse geocoding using the 51Degrees cloud service.</Description>
 	  <Authors>51Degrees Engineering</Authors>
 	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
     <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
@@ -25,6 +25,7 @@
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageIcon>51d-logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -42,6 +43,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\common-dotnet\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\Images\51d-logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
