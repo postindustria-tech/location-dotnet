@@ -15,6 +15,9 @@ jobs:
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
       ApiKey: ${{ secrets.NUGET_API_KEY }}
-      CodeSigningCertPassword: ${{ secrets.CODE_SIGNING_CERT_PASSWORD }}
-      CodeSigningCert: ${{ secrets.CODE_SIGNING_CERT }}
+      CodeSigningKeyVaultUrl: ${{ secrets.CODE_SIGNING_KEY_VAULT_URL }}
+      CodeSigningKeyVaultClientId: ${{ secrets.CODE_SIGNING_KEY_VAULT_CLIENT_ID }}
+      CodeSigningKeyVaultTenantId: ${{ secrets.CODE_SIGNING_KEY_VAULT_TENANT_ID }}
+      CodeSigningKeyVaultClientSecret: ${{ secrets.CODE_SIGNING_KEY_VAULT_CLIENT_SECRET }}
+      CodeSigningKeyVaultCertificateName: ${{ secrets.CODE_SIGNING_KEY_VAULT_CERTIFICATE_NAME }}
       TestResourceKey: ${{ secrets.SUPER_RESOURCE_KEY}}
